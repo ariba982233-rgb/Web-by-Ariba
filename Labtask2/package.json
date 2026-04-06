@@ -1,0 +1,13 @@
+{
+  "name": "bonanza-satrangi-express",
+  "version": "1.0.0",
+  "description": "Bonanza Satrangi landing page converted to Express with EJS",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "ejs": "^5.0.1",
+    "express": "^5.2.1"
+  }
+}

@@ -3,9 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bonanza Satrangi</title>
+    <title>Bonanza Satrangi | Midterm Project</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* Specific Styles for the Carousel Midterm Requirement */
+        .ready-section-container {
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        .slide-btn {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+        .slide-btn:hover {
+            background: #444;
+        }
+        #slider-counter {
+            font-weight: bold;
+            font-size: 16px;
+            min-width: 120px;
+            text-align: center;
+        }
+        .slick-slide {
+            margin: 0 10px;
+        }
+        /* Ensure the cards look good inside the slider */
+        .ready-card {
+            height: 500px !important;
+            display: block !important;
+        }
+    </style>
 </head>
 <body>
 
@@ -88,32 +137,47 @@
         </div>
     </section>
 
-    <section class="ready-section">
-        <div class="ready-card">
-            <img src="images/product6.webp" alt="Embroidered">
-            <div class="ready-text">
-                <h2>READY TO WEAR</h2>
-                <p>EMBROIDERED</p>
-            </div>
+    <section class="ready-section-container">
+        <div class="slider-controls">
+            <button id="prevBtn" class="slide-btn"><i class="fas fa-chevron-left"></i> Previous</button>
+            <span id="slider-counter">Showing 1 of 3</span>
+            <button id="nextBtn" class="slide-btn">Next <i class="fas fa-chevron-right"></i></button>
         </div>
 
-        <div class="ready-card">
-            <img src="images/product9.webp" alt="Printed">
-            <div class="ready-text">
-                <h2>READY TO WEAR</h2>
-                <p>PRINTED</p>
+        <div class="ready-section slick-slider-wrapper">
+            <div class="ready-card">
+                <img src="images/product6.webp" alt="Embroidered">
+                <div class="ready-text">
+                    <h2>READY TO WEAR</h2>
+                    <p>EMBROIDERED</p>
+                </div>
             </div>
-        </div>
-        
-        <div class="ready-card">
-            <img src="images/product8.webp" alt="Ready to Wear Shop">
-            <div class="ready-text">
-                <h2>READY TO WEAR</h2>
-                <p>SHOP NOW</p>
+
+            <div class="ready-card">
+                <img src="images/product9.webp" alt="Printed">
+                <div class="ready-text">
+                    <h2>READY TO WEAR</h2>
+                    <p>PRINTED</p>
+                </div>
+            </div>
+            
+            <div class="ready-card">
+                <img src="images/product8.webp" alt="Ready to Wear Shop">
+                <div class="ready-text">
+                    <h2>READY TO WEAR</h2>
+                    <p>SHOP NOW</p>
+                </div>
+            </div>
+
+            <div class="ready-card">
+                <img src="images/product1.webp" alt="New Arrival">
+                <div class="ready-text">
+                    <h2>NEW ARRIVALS</h2>
+                    <p>VIEW ALL</p>
+                </div>
             </div>
         </div>
     </section>
-
 
     <section class="category-grid fragrance-grid">
         <div class="category-card">
@@ -123,34 +187,17 @@
                 <p>SHOP NOW</p>
             </div>
         </div>
-
         <div class="category-card">
             <img src="images/fragnance2.webp" alt="Women Fragrance">
             <div class="overlay-text">
                 <h2>WOMEN</h2>
             </div>
         </div>
-
         <div class="category-card">
             <img src="images/fragnance3.webp" alt="Men Fragrance">
             <div class="overlay-text">
                 <h2>MEN</h2>
             </div>
-        </div>
-    </section>
-
-    <section class="beauty-container">
-        <div class="beauty-item">
-            <img src="images/beautyproduct3.webp" alt="Hair Care">
-            <div class="beauty-label">HAIR CARE</div>
-        </div>
-        <div class="beauty-item">
-            <img src="images/beautyproduct2.webp" alt="Skincare">
-            <div class="beauty-label">SKINCARE</div>
-        </div>
-        <div class="beauty-item">
-            <img src="images/beautyproduct1.webp" alt="Makeup">
-            <div class="beauty-label">MAKEUP</div>
         </div>
     </section>
 
@@ -186,6 +233,67 @@
             <p>&copy; 2026 Bonanza Satrangi. Powered By SIAR</p>
         </div>
     </footer>
-    <script src="script.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    
+    <script>
+        $(document).ready(function(){
+            // Mobile Menu Logic
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('nav-menu');
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+            });
+
+            // --- Slick Slider Initialization ---
+            const $slider = $('.slick-slider-wrapper');
+
+            $slider.slick({
+                infinite: true,
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 5000, // Auto-play every 5 seconds
+                prevArrow: $('#prevBtn'),
+                nextArrow: $('#nextBtn'),
+                responsive: [
+                    {
+                        breakpoint: 1024, // Tablet
+                        settings: {
+                            slidesToShow: 2
+                        }
+                    },
+                    {
+                        breakpoint: 768, // Mobile
+                        settings: {
+                            slidesToShow: 1
+                        }
+                    }
+                ]
+            });
+
+            // --- Slide Counter Logic ---
+            function updateCounter(currentSlide) {
+                const totalSlides = $slider.slick('getSlick').slideCount;
+                $('#slider-counter').text(`Showing ${currentSlide + 1} of ${totalSlides}`);
+            }
+
+            // Initial call
+            updateCounter(0);
+
+            // Update counter after every slide change
+            $slider.on('afterChange', function(event, slick, currentSlide){
+                updateCounter(currentSlide);
+            });
+
+            // --- Pause on Hover Logic ---
+            $('.ready-card').on('mouseenter', function() {
+                $slider.slick('slickPause');
+            }).on('mouseleave', function() {
+                $slider.slick('slickPlay');
+            });
+        });
+    </script>
 </body>
 </html>
