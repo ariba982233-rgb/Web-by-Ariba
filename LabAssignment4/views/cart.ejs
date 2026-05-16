@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart – Bonanza Satrangi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/cart.css">
+</head>
+<body>
+    <%- include('partials/flash') %>
+    <div class="top-bar">Free shipping on orders above Rs. 3,000</div>
+
+    <section class="logo-section">
+        <div class="container">
+            <img src="/images/bonanza_logo.svg" alt="Bonanza Satrangi Logo" class="main-logo">
+        </div>
+    </section>
+
+    <header>
+        <nav class="navbar">
+            <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
+            <div class="menu" id="nav-menu">
+                <a href="/">HOME</a>
+                <a href="/products?category=dress">DRESSES</a>
+                <a href="/products?category=unstitched">UNSTITCHED</a>
+                <a href="/products?category=perfume">FRAGRANCES</a>
+                <a href="/products?category=beauty">BEAUTY</a>
+                <a href="/products">ALL PRODUCTS</a>
+            </div>
+            <div class="icons">
+                <% if (user) { %>
+                    <% if (user.role === 'admin') { %>
+                        <a href="/admin" title="Admin Panel"><i class="fas fa-shield-alt"></i></a>
+                    <% } %>
+                    <a href="/logout" title="Logout (<%= user.name %>)"><i class="fas fa-sign-out-alt"></i></a>
+                <% } else { %>
+                    <a href="/login" title="Login / Register"><i class="fas fa-user"></i></a>
+                <% } %>
+                <a href="/favourites"><i class="fas fa-heart"></i><span class="badge"><%= typeof favouritesCount !== 'undefined' ? favouritesCount : 0 %></span></a>
+                <a href="/cart"><i class="fas fa-shopping-bag"></i><span class="badge"><%= cartCount %></span></a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="cart-main">
+        <div class="cart-container">
+            <h1 class="cart-title">Shopping Cart <span class="cart-count-badge"><%= cartCount %> items</span></h1>
+
+            <% if (cart.length === 0) { %>
+            <div class="empty-cart">
+                <div class="empty-cart-icon"><i class="fas fa-shopping-bag"></i></div>
+                <h2>Your cart is empty</h2>
+                <p>Looks like you haven't added anything yet.</p>
+                <a href="/products" class="cta-btn">Continue Shopping</a>
+            </div>
+            <% } else { %>
+
+            <div class="cart-layout">
+                <div class="cart-items">
+                    <% cart.forEach(item => { %>
+                    <div class="cart-item">
+                        <div class="cart-item-img">
+                            <img src="<%= item.image.startsWith('uploads/') ? '/' + item.image : '/images/' + item.image %>" alt="<%= item.name %>">
+                        </div>
+                        <div class="cart-item-details">
+                            <h3><%= item.name %></h3>
+                            <p class="cart-item-price">Rs. <%= item.price.toLocaleString() %> × <%= item.qty %></p>
+                            <p class="cart-item-subtotal">Subtotal: <strong>Rs. <%= (item.price * item.qty).toLocaleString() %></strong></p>
+                        </div>
+                        <form action="/cart/remove" method="POST" class="remove-form">
+                            <input type="hidden" name="productId" value="<%= item.productId %>">
+                            <button type="submit" class="remove-btn" title="Remove item">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <% }); %>
+                </div>
+
+                <div class="cart-summary">
+                    <h2>Order Summary</h2>
+                    <div class="summary-row">
+                        <span>Subtotal (<%= cartCount %> items)</span>
+                        <span>Rs. <%= total.toLocaleString() %></span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <span><%= total >= 3000 ? 'FREE' : 'Rs. 200' %></span>
+                    </div>
+                    <div class="summary-divider"></div>
+                    <div class="summary-row total-row">
+                        <span>Total</span>
+                        <span>Rs. <%= (total + (total >= 3000 ? 0 : 200)).toLocaleString() %></span>
+                    </div>
+                    <a href="/checkout" class="checkout-btn" style="text-align:center; display:block; text-decoration:none;">Proceed to Checkout</a>
+                    <a href="/products" class="continue-shopping">← Continue Shopping</a>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Bonanza Satrangi. Powered By SIAR</p>
+        </div>
+    </footer>
+
+    <script src="/js/script.js"></script>
+</body>
+</html>

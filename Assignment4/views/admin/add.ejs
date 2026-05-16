@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product – Admin Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f4f6f8; margin: 0; padding: 0; }
+        .admin-sidebar { width: 250px; background-color: #1a1a1a; color: #fff; height: 100vh; position: fixed; top: 0; left: 0; padding-top: 20px; }
+        .admin-sidebar h2 { text-align: center; font-weight: 500; font-family: 'Cormorant Garamond', serif; letter-spacing: 2px; }
+        .admin-sidebar a { display: block; padding: 15px 25px; color: #ccc; text-decoration: none; transition: 0.3s; }
+        .admin-sidebar a:hover, .admin-sidebar a.active { background-color: #333; color: #fff; border-left: 4px solid #d4af37; }
+        .admin-content { margin-left: 250px; padding: 40px; }
+        .form-container { background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); max-width: 600px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 500; color: #333; }
+        input[type="text"], input[type="number"], select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-family: 'Inter', sans-serif; box-sizing: border-box; }
+        .btn { padding: 12px 24px; background-color: #000; color: #fff; text-decoration: none; border: none; cursor: pointer; border-radius: 4px; transition: 0.3s; font-size: 16px; }
+        .btn:hover { background-color: #333; }
+        .btn-cancel { background-color: #95a5a6; margin-left: 10px; }
+        .btn-cancel:hover { background-color: #7f8c8d; }
+    </style>
+</head>
+<body>
+    <div class="admin-sidebar">
+        <h2>ADMIN PANEL</h2>
+        <a href="/admin" class="active"><i class="fas fa-box"></i> Products</a>
+        <a href="/"><i class="fas fa-home"></i> Back to Store</a>
+    </div>
+
+    <div class="admin-content">
+        <h1>Add New Product</h1>
+        
+        <div class="form-container">
+            <form action="/admin/products/add" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>Product Name *</label>
+                    <input type="text" name="name" required placeholder="e.g. Floral Lawn Suit">
+                </div>
+                
+                <div class="form-group">
+                    <label>Category *</label>
+                    <select name="category" required>
+                        <option value="dress">Dress</option>
+                        <option value="unstitched">Unstitched</option>
+                        <option value="perfume">Perfume</option>
+                        <option value="beauty">Beauty</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Price (Rs.) *</label>
+                    <input type="number" name="price" required min="0" placeholder="e.g. 5000">
+                </div>
+
+                <div class="form-group">
+                    <label>Stock Quantity *</label>
+                    <input type="number" name="stock" required min="0" placeholder="e.g. 20">
+                </div>
+
+                <div class="form-group">
+                    <label>Rating (0-5)</label>
+                    <input type="number" name="rating" min="0" max="5" step="0.1" value="4.0">
+                </div>
+
+                <div class="form-group">
+                    <label>Product Image *</label>
+                    <input type="file" name="image" required accept="image/*">
+                    <small style="color: #666; display: block; margin-top: 5px;">Upload a high quality image for the product.</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description" rows="4" placeholder="Brief product description..."></textarea>
+                </div>
+
+                <button type="submit" class="btn"><i class="fas fa-save"></i> Save Product</button>
+                <a href="/admin" class="btn btn-cancel">Cancel</a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

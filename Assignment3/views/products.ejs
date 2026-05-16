@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products – Bonanza Satrangi</title>
+    <meta name="description" content="Shop our complete collection of dresses, fragrances, and beauty products. Filter by category, price, and rating.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/products.css">
+</head>
+
+<body class="products-page">
+
+    <!-- Top Bar -->
+    <div class="top-bar">Free shipping on orders above Rs. 3,000</div>
+
+    <!-- Logo -->
+    <section class="logo-section">
+        <div class="container">
+            <img src="/images/bonanza_logo.svg" alt="Bonanza Satrangi Logo" class="main-logo">
+        </div>
+    </section>
+
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar">
+            <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
+            <div class="menu" id="nav-menu">
+                <a href="/">HOME</a>
+                <a href="/products?category=dress" class="<%= category === 'dress' ? 'active-nav' : '' %>">DRESSES</a>
+                <a href="/products?category=unstitched" class="<%= category === 'unstitched' ? 'active-nav' : '' %>">UNSTITCHED</a>
+                <a href="/products?category=perfume" class="<%= category === 'perfume' ? 'active-nav' : '' %>">FRAGRANCES</a>
+                <a href="/products?category=beauty" class="<%= category === 'beauty' ? 'active-nav' : '' %>">BEAUTY</a>
+                <a href="/products" class="<%= !category ? 'active-nav' : '' %>">ALL PRODUCTS</a>
+                <a href="/contact-us">CONTACT</a>
+            </div>
+            <div class="icons">
+                <a href="#"><i class="fas fa-user"></i></a>
+                <a href="/favourites"><i class="fas fa-heart"></i><span class="badge"><%= typeof favouritesCount !== 'undefined' ? favouritesCount : 0 %></span></a>
+                <a href="/cart" id="cart-icon-link">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="badge" id="cart-badge"><%= cartCount %></span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-hero">
+        <div class="page-hero-content">
+            <h1>Our Collection</h1>
+            <p><%= totalProducts %> products found</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="catalog-wrapper">
+
+        <!-- ─── Sidebar Filters ──────────────────────────────────────── -->
+        <aside class="filters-sidebar" id="filters-sidebar">
+            <div class="filter-header">
+                <h2>Filters</h2>
+                <button class="clear-filters-btn" onclick="clearFilters()">Clear All</button>
+            </div>
+
+            <form id="filter-form" action="/products" method="GET">
+
+                <!-- Search -->
+                <div class="filter-group">
+                    <label class="filter-label"><i class="fas fa-search"></i> Search</label>
+                    <div class="search-input-wrap">
+                        <input
+                            type="text"
+                            name="search"
+                            id="search-input"
+                            placeholder="Search products…"
+                            value="<%= search %>"
+                            class="filter-input"
+                        >
+                    </div>
+                </div>
+
+                <!-- Category -->
+                <div class="filter-group">
+                    <label class="filter-label"><i class="fas fa-tag"></i> Category</label>
+                    <div class="category-chips">
+                        <label class="chip <%= !category ? 'active' : '' %>">
+                            <input type="radio" name="category" value="" <%= !category ? 'checked' : '' %>> All
+                        </label>
+                        <label class="chip <%= category === 'dress' ? 'active' : '' %>">
+                            <input type="radio" name="category" value="dress" <%= category === 'dress' ? 'checked' : '' %>> 
+                            <i class="fas fa-tshirt"></i> Dresses
+                        </label>
+                        <label class="chip <%= category === 'unstitched' ? 'active' : '' %>">
+                            <input type="radio" name="category" value="unstitched" <%= category === 'unstitched' ? 'checked' : '' %>> 
+                            <i class="fas fa-cut"></i> Unstitched
+                        </label>
+                        <label class="chip <%= category === 'perfume' ? 'active' : '' %>">
+                            <input type="radio" name="category" value="perfume" <%= category === 'perfume' ? 'checked' : '' %>>
+                            <i class="fas fa-spray-can"></i> Perfumes
+                        </label>
+                        <label class="chip <%= category === 'beauty' ? 'active' : '' %>">
+                            <input type="radio" name="category" value="beauty" <%= category === 'beauty' ? 'checked' : '' %>>
+                            <i class="fas fa-spa"></i> Beauty
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Price Range -->
+                <div class="filter-group">
+                    <label class="filter-label"><i class="fas fa-tag"></i> Price Range (Rs.)</label>
+                    <div class="price-inputs">
+                        <input
+                            type="number"
+                            name="minPrice"
+                            placeholder="Min"
+                            value="<%= minPrice %>"
+                            class="filter-input price-inp"
+                            min="0"
+                        >
+                        <span class="price-sep">–</span>
+                        <input
+                            type="number"
+                            name="maxPrice"
+                            placeholder="Max"
+                            value="<%= maxPrice %>"
+                            class="filter-input price-inp"
+                            min="0"
+                        >
+                    </div>
+                </div>
+
+                <!-- Sort -->
+                <div class="filter-group">
+                    <label class="filter-label"><i class="fas fa-sort"></i> Sort By</label>
+                    <select name="sort" class="filter-select" onchange="this.form.submit()">
+                        <option value="default"    <%= sort === 'default'    ? 'selected' : '' %>>Latest</option>
+                        <option value="price-asc"  <%= sort === 'price-asc'  ? 'selected' : '' %>>Price: Low → High</option>
+                        <option value="price-desc" <%= sort === 'price-desc' ? 'selected' : '' %>>Price: High → Low</option>
+                        <option value="rating"     <%= sort === 'rating'     ? 'selected' : '' %>>Top Rated</option>
+                        <option value="name"       <%= sort === 'name'       ? 'selected' : '' %>>Name A–Z</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="apply-btn">Apply Filters</button>
+            </form>
+        </aside>
+
+        <!-- ─── Products Grid ────────────────────────────────────────── -->
+        <section class="products-section">
+
+            <!-- Mobile filter toggle -->
+            <div class="mobile-filter-bar">
+                <button class="mobile-filter-btn" id="toggle-filters">
+                    <i class="fas fa-sliders-h"></i> Filters
+                </button>
+                <span class="results-count"><%= totalProducts %> results</span>
+            </div>
+
+            <!-- Active Filter Tags -->
+            <% if (search || category || minPrice || maxPrice) { %>
+            <div class="active-filters">
+                <span class="active-filter-label">Active:</span>
+                <% if (search) { %>
+                    <span class="filter-tag">Search: "<%= search %>" <a href="/products?<%= new URLSearchParams({category, minPrice, maxPrice, sort}).toString() %>">✕</a></span>
+                <% } %>
+                <% if (category) { %>
+                    <span class="filter-tag"><%= category.charAt(0).toUpperCase() + category.slice(1) %> <a href="/products?<%= new URLSearchParams({search, minPrice, maxPrice, sort}).toString() %>">✕</a></span>
+                <% } %>
+                <% if (minPrice) { %>
+                    <span class="filter-tag">Min: Rs.<%= minPrice %> <a href="/products?<%= new URLSearchParams({search, category, maxPrice, sort}).toString() %>">✕</a></span>
+                <% } %>
+                <% if (maxPrice) { %>
+                    <span class="filter-tag">Max: Rs.<%= maxPrice %> <a href="/products?<%= new URLSearchParams({search, category, minPrice, sort}).toString() %>">✕</a></span>
+                <% } %>
+            </div>
+            <% } %>
+
+            <!-- Products Grid -->
+            <% if (products.length === 0) { %>
+            <div class="no-products">
+                <div class="no-products-icon"><i class="fas fa-search"></i></div>
+                <h3>No products found</h3>
+                <p>Try adjusting your filters or search term</p>
+                <a href="/products" class="cta-btn">View All Products</a>
+            </div>
+            <% } else { %>
+            <div class="products-grid">
+                <% products.forEach(product => { %>
+                <article class="product-card" id="product-<%= product._id %>">
+                    <div class="product-img-wrap">
+                        <img src="/images/<%= product.image %>" alt="<%= product.name %>" class="product-img" loading="lazy">
+                        <div class="product-badges">
+                            <span class="badge-category"><%= product.category %></span>
+                            <% if (product.stock < 10) { %>
+                            <span class="badge-low-stock">Low Stock</span>
+                            <% } %>
+                        </div>
+                        <div class="product-quick-actions">
+                            <form action="/favourites/add" method="POST" style="display:inline;">
+                                <input type="hidden" name="productId" value="<%= product._id %>">
+                                <input type="hidden" name="name"      value="<%= product.name %>">
+                                <input type="hidden" name="price"     value="<%= product.price %>">
+                                <input type="hidden" name="image"     value="<%= product.image %>">
+                                <input type="hidden" name="returnQuery" value="page=<%=currentPage%>&search=<%=encodeURIComponent(search)%>&category=<%=encodeURIComponent(category)%>&minPrice=<%=minPrice%>&maxPrice=<%=maxPrice%>&sort=<%=sort%>">
+                                <button type="submit" class="quick-btn wishlist-btn" title="Add to Wishlist"><i class="fas fa-heart"></i></button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="product-info">
+                        <p class="product-category"><%= product.category.toUpperCase() %></p>
+                        <h3 class="product-name"><%= product.name %></h3>
+                        <p class="product-desc"><%= product.description %></p>
+
+                        <div class="product-meta">
+                            <div class="product-rating">
+                                <% for(let i = 1; i <= 5; i++) { %>
+                                    <% if (i <= Math.floor(product.rating)) { %>
+                                        <i class="fas fa-star"></i>
+                                    <% } else if (i - product.rating < 1) { %>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    <% } else { %>
+                                        <i class="far fa-star"></i>
+                                    <% } %>
+                                <% } %>
+                                <span class="rating-num">(<%= product.rating %>)</span>
+                            </div>
+                            <span class="product-stock <% if(product.stock < 10) { %>low<% } %>">
+                                <%= product.stock %> left
+                            </span>
+                        </div>
+
+                        <div class="product-footer">
+                            <span class="product-price">Rs. <%= product.price.toLocaleString() %></span>
+                            <form action="/cart/add" method="POST">
+                                <input type="hidden" name="productId" value="<%= product._id %>">
+                                <input type="hidden" name="name"      value="<%= product.name %>">
+                                <input type="hidden" name="price"     value="<%= product.price %>">
+                                <input type="hidden" name="image"     value="<%= product.image %>">
+                                <!-- Preserve current query params -->
+                                <% 
+                                  const queryStr = `page=${currentPage}&search=${encodeURIComponent(search)}&category=${encodeURIComponent(category)}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort}`;
+                                %>
+                                <input type="hidden" name="returnQuery" value="<%= queryStr %>">
+                                <button type="submit" class="add-to-cart-btn">
+                                    <i class="fas fa-bag-shopping"></i> Add to Cart
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </article>
+                <% }); %>
+            </div>
+
+            <!-- ─── Pagination ──────────────────────────────────────── -->
+            <% if (totalPages > 1) { %>
+            <nav class="pagination" aria-label="Product pages">
+                <%
+                  const buildUrl = (p) => {
+                    const params = new URLSearchParams();
+                    if (search)   params.set('search', search);
+                    if (category) params.set('category', category);
+                    if (minPrice) params.set('minPrice', minPrice);
+                    if (maxPrice) params.set('maxPrice', maxPrice);
+                    if (sort && sort !== 'default') params.set('sort', sort);
+                    params.set('page', p);
+                    return '/products?' + params.toString();
+                  };
+                %>
+
+                <!-- Previous -->
+                <% if (currentPage > 1) { %>
+                <a href="<%= buildUrl(currentPage - 1) %>" class="page-btn prev-btn">
+                    <i class="fas fa-chevron-left"></i> Previous
+                </a>
+                <% } else { %>
+                <span class="page-btn disabled"><i class="fas fa-chevron-left"></i> Previous</span>
+                <% } %>
+
+                <!-- Page Numbers -->
+                <div class="page-numbers">
+                    <% 
+                      let startPage = Math.max(1, currentPage - 2);
+                      let endPage   = Math.min(totalPages, startPage + 4);
+                      if (endPage - startPage < 4) startPage = Math.max(1, endPage - 4);
+                    %>
+                    <% if (startPage > 1) { %>
+                        <a href="<%= buildUrl(1) %>" class="page-num">1</a>
+                        <% if (startPage > 2) { %><span class="page-ellipsis">…</span><% } %>
+                    <% } %>
+                    <% for (let p = startPage; p <= endPage; p++) { %>
+                        <a href="<%= buildUrl(p) %>" class="page-num <%= p === currentPage ? 'active' : '' %>"><%= p %></a>
+                    <% } %>
+                    <% if (endPage < totalPages) { %>
+                        <% if (endPage < totalPages - 1) { %><span class="page-ellipsis">…</span><% } %>
+                        <a href="<%= buildUrl(totalPages) %>" class="page-num"><%= totalPages %></a>
+                    <% } %>
+                </div>
+
+                <!-- Next -->
+                <% if (currentPage < totalPages) { %>
+                <a href="<%= buildUrl(currentPage + 1) %>" class="page-btn next-btn">
+                    Next <i class="fas fa-chevron-right"></i>
+                </a>
+                <% } else { %>
+                <span class="page-btn disabled">Next <i class="fas fa-chevron-right"></i></span>
+                <% } %>
+            </nav>
+
+            <p class="pagination-info">
+                Showing <%= (currentPage - 1) * 8 + 1 %>–<%= Math.min(currentPage * 8, totalProducts) %> of <%= totalProducts %> products
+            </p>
+            <% } %>
+            <% } %>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>CONTACT US</h3>
+                <p>📞 +92 21 111-244-266</p>
+                <p>✉ info@bonanzasatrangi.com</p>
+                <p>Monday - Saturday: 9:30 AM – 10:00 PM</p>
+            </div>
+            <div class="footer-column">
+                <h3>QUICK LINKS</h3>
+                <p><a href="/products">All Products</a></p>
+                <p><a href="/products?category=dress">Dresses</a></p>
+                <p><a href="/products?category=unstitched">Unstitched</a></p>
+                <p><a href="/products?category=perfume">Fragrances</a></p>
+                <p><a href="/products?category=beauty">Beauty</a></p>
+            </div>
+            <div class="footer-column">
+                <h3>CUSTOMER CARE</h3>
+                <p>Privacy Policy</p>
+                <p>Return & Exchange</p>
+                <p>FAQs</p>
+            </div>
+            <div class="footer-column newsletter">
+                <h3>NEWSLETTER</h3>
+                <div class="newsletter-box">
+                    <input type="email" placeholder="Enter Email">
+                    <button>→</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Bonanza Satrangi. Powered By SIAR</p>
+        </div>
+    </footer>
+
+    <script src="/js/script.js"></script>
+    <script src="/js/products.js"></script>
+</body>
+
+</html>
