@@ -211,7 +211,7 @@ app.get('/register', (req, res) => res.render('register'));
 
 app.post('/register', async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, role } = req.body;
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             req.flash('error_msg', 'Email already registered');
@@ -221,9 +221,9 @@ app.post('/register', async (req, res) => {
             req.flash('error_msg', 'Password must be at least 6 characters');
             return res.redirect('/register');
         }
-        const newUser = new User({ name, email, password });
+        const newUser = new User({ name, email, password, role: role || 'customer' });
         await newUser.save();
-        req.flash('success_msg', 'Registration successful. You can now log in.');
+        req.flash('success_msg', `Registration successful as ${role === 'admin' ? 'Admin' : 'Customer'}. You can now log in.`);
         res.redirect('/login');
     } catch (err) {
         req.flash('error_msg', 'Error registering user');
@@ -235,7 +235,7 @@ app.get('/login', (req, res) => res.render('login'));
 
 app.post('/login', async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { email, password, role } = req.body;
         const user = await User.findOne({ email });
         if (!user) {
             req.flash('error_msg', 'Invalid email or password');
@@ -246,8 +246,12 @@ app.post('/login', async (req, res) => {
             req.flash('error_msg', 'Invalid email or password');
             return res.redirect('/login');
         }
-        req.session.user = { _id: user._id, name: user.name, role: user.role };
-        req.flash('success_msg', `Welcome back, ${user.name}!`);
+        
+        // Dynamically log in with the selected role from the dropdown
+        const activeRole = role || user.role;
+        req.session.user = { _id: user._id, name: user.name, role: activeRole };
+        
+        req.flash('success_msg', `Welcome back, ${user.name}! Logged in as ${activeRole === 'admin' ? 'Admin' : 'Customer'}`);
         res.redirect('/');
     } catch (err) {
         req.flash('error_msg', 'Error logging in');

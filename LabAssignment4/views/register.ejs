@@ -48,6 +48,13 @@
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required minlength="6" placeholder="Create a password (min 6 chars)">
             </div>
+            <div class="form-group">
+                <label for="role">Register As</label>
+                <select id="role" name="role" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-family: 'Inter', sans-serif; background-color: #fff;">
+                    <option value="customer">Customer (User)</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
             <button type="submit" class="auth-btn">Create Account</button>
         </form>
         

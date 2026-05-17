@@ -44,6 +44,13 @@
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required placeholder="Enter your password">
             </div>
+            <div class="form-group">
+                <label for="role">Login As</label>
+                <select id="role" name="role" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-family: 'Inter', sans-serif; background-color: #fff;">
+                    <option value="customer">Customer (User)</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
             <button type="submit" class="auth-btn">Sign In</button>
         </form>
         

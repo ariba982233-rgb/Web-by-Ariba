@@ -96,7 +96,11 @@
                         <span>Total</span>
                         <span>Rs. <%= (total + (total >= 3000 ? 0 : 200)).toLocaleString() %></span>
                     </div>
-                    <a href="/checkout" class="checkout-btn" style="text-align:center; display:block; text-decoration:none;">Proceed to Checkout</a>
+                    <% if (user) { %>
+                        <a href="/checkout" class="checkout-btn" style="text-align:center; display:block; text-decoration:none;">Proceed to Checkout</a>
+                    <% } else { %>
+                        <a href="/login" class="checkout-btn" style="text-align:center; display:block; text-decoration:none; background-color: #721c24;">Log in to Checkout</a>
+                    <% } %>
                     <a href="/products" class="continue-shopping">← Continue Shopping</a>
                 </div>
             </div>
