@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Favourites – Bonanza Satrangi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/cart.css">
+</head>
+<body>
+    <%- include('partials/flash') %>
+    <div class="top-bar">Free shipping on orders above Rs. 3,000</div>
+
+    <section class="logo-section">
+        <div class="container">
+            <img src="/images/bonanza_logo.svg" alt="Bonanza Satrangi Logo" class="main-logo">
+        </div>
+    </section>
+
+    <header>
+        <nav class="navbar">
+            <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
+            <div class="menu" id="nav-menu">
+                <a href="/">HOME</a>
+                <a href="/products?category=dress">DRESSES</a>
+                <a href="/products?category=unstitched">UNSTITCHED</a>
+                <a href="/products?category=perfume">FRAGRANCES</a>
+                <a href="/products?category=beauty">BEAUTY</a>
+                <a href="/products">ALL PRODUCTS</a>
+                <a href="/onsale-products">ON SALE</a>
+                <a href="/contact-us">CONTACT</a>
+            </div>
+            <div class="icons">
+                <% if (user) { %>
+                    <% if (user.role === 'admin') { %>
+                        <a href="/admin" title="Admin Panel"><i class="fas fa-shield-alt"></i></a>
+                    <% } %>
+                    <a href="/logout" title="Logout (<%= user.name %>)"><i class="fas fa-sign-out-alt"></i></a>
+                <% } else { %>
+                    <a href="/login" title="Login / Register"><i class="fas fa-user"></i></a>
+                <% } %>
+                <a href="/favourites"><i class="fas fa-heart"></i><span class="badge"><%= typeof favouritesCount !== 'undefined' ? favouritesCount : 0 %></span></a>
+                <a href="/cart"><i class="fas fa-shopping-bag"></i><span class="badge"><%= cartCount %></span></a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="cart-main">
+        <div class="cart-container">
+            <h1 class="cart-title">My Favourites <span class="cart-count-badge"><%= favouritesCount %> items</span></h1>
+
+            <% if (favourites.length === 0) { %>
+            <div class="empty-cart">
+                <div class="empty-cart-icon"><i class="fas fa-heart"></i></div>
+                <h2>Your wishlist is empty</h2>
+                <p>Looks like you haven't added any favourites yet.</p>
+                <a href="/products" class="cta-btn">Discover Products</a>
+            </div>
+            <% } else { %>
+
+            <div class="cart-layout" style="grid-template-columns: 1fr; max-width: 800px; margin: 0 auto;">
+                <div class="cart-items">
+                    <% favourites.forEach(item => { %>
+                    <div class="cart-item">
+                        <div class="cart-item-img">
+                            <img src="<%= item.image.startsWith('uploads/') ? '/' + item.image : '/images/' + item.image %>" alt="<%= item.name %>">
+                        </div>
+                        <div class="cart-item-details">
+                            <h3><%= item.name %></h3>
+                            <p class="cart-item-price">Rs. <%= item.price.toLocaleString() %></p>
+                            
+                            <form action="/cart/add" method="POST" style="margin-top: 10px; display:inline-block;">
+                                <input type="hidden" name="productId" value="<%= item.productId %>">
+                                <input type="hidden" name="name"      value="<%= item.name %>">
+                                <input type="hidden" name="price"     value="<%= item.price %>">
+                                <input type="hidden" name="image"     value="<%= item.image %>">
+                                <input type="hidden" name="returnQuery" value="">
+                                <button type="submit" class="cta-btn" style="padding: 8px 15px; font-size: 14px;">
+                                    <i class="fas fa-bag-shopping"></i> Add to Cart
+                                </button>
+                            </form>
+
+                        </div>
+                        <form action="/favourites/remove" method="POST" class="remove-form">
+                            <input type="hidden" name="productId" value="<%= item.productId %>">
+                            <button type="submit" class="remove-btn" title="Remove from favourites">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <% }); %>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Bonanza Satrangi. Powered By SIAR</p>
+        </div>
+    </footer>
+
+    <script src="/js/script.js"></script>
+</body>
+</html>

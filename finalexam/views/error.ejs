@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error – Bonanza Satrangi</title>
+    <meta name="description" content="An error occurred on Bonanza Satrangi.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .error-page {
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            font-family: 'Inter', sans-serif;
+        }
+        .error-icon {
+            font-size: 5rem;
+            color: #c0392b;
+            margin-bottom: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .error-code {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 6rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        .error-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .error-message {
+            font-size: 1rem;
+            color: #666;
+            max-width: 480px;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .error-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.75rem;
+            background: #1a1a1a;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+        .error-btn:hover { background: #333; }
+        .error-btn.outline {
+            background: transparent;
+            color: #1a1a1a;
+            border: 1px solid #1a1a1a;
+        }
+        .error-btn.outline:hover { background: #f5f5f5; }
+    </style>
+</head>
+
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">This is the only official Bonanza Satrangi website.</div>
+
+    <!-- Logo -->
+    <section class="logo-section">
+        <div class="container">
+            <img src="/images/bonanza_logo.svg" alt="Bonanza Satrangi Logo" class="main-logo">
+        </div>
+    </section>
+
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar">
+            <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
+            <div class="menu" id="nav-menu">
+                <a href="/">HOME</a>
+                <a href="/products?category=dress">DRESSES</a>
+                <a href="/products?category=unstitched">UNSTITCHED</a>
+                <a href="/products?category=perfume">FRAGRANCES</a>
+                <a href="/products?category=beauty">BEAUTY</a>
+                <a href="/products">ALL PRODUCTS</a>
+                <a href="/onsale-products">ON SALE</a>
+                <a href="/contact-us">CONTACT</a>
+            </div>
+            <div class="icons">
+                <a href="/products"><i class="fas fa-search"></i></a>
+                <a href="/cart"><i class="fas fa-shopping-bag"></i></a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Error Content -->
+    <main class="error-page">
+        <div class="error-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="error-code">500</div>
+        <h1 class="error-title"><%= message || 'Something went wrong' %></h1>
+        <p class="error-message">
+            We're sorry, but an unexpected error occurred while processing your request.
+            Please try again or return to the homepage.
+        </p>
+        <div class="error-actions">
+            <a href="/" class="error-btn"><i class="fas fa-home"></i> Go Home</a>
+            <a href="/products" class="error-btn outline"><i class="fas fa-box-open"></i> View Products</a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>CONTACT US</h3>
+                <p>📞 +92 21 111-244-266</p>
+                <p>✉ info@bonanzasatrangi.com</p>
+                <p>Monday - Saturday: 9:30 AM – 10:00 PM</p>
+            </div>
+            <div class="footer-column">
+                <h3>INFORMATION</h3>
+                <p>About Us</p>
+                <p>Track Your Order</p>
+                <p>Store Locator</p>
+            </div>
+            <div class="footer-column">
+                <h3>CUSTOMER CARE</h3>
+                <p>Privacy Policy</p>
+                <p>Return & Exchange</p>
+                <p>FAQs</p>
+            </div>
+            <div class="footer-column newsletter">
+                <h3>NEWSLETTER</h3>
+                <div class="newsletter-box">
+                    <input type="email" placeholder="Enter Email">
+                    <button>→</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Bonanza Satrangi. Powered By SIAR</p>
+        </div>
+    </footer>
+
+    <script src="/js/script.js"></script>
+</body>
+
+</html>

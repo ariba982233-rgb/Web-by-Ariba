@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>On-Sale Products – Bonanza Satrangi</title>
+    <meta name="description" content="Explore Bonanza Satrangi's active promotional collection. Grab on-sale products, dresses, fragrances, and beauty items in limited stock.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/products.css">
+    <!-- Load jQuery early in head so body templates can use it immediately -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        /* Modern styling for the layout & pagination indicators */
+        .onsale-page-indicator {
+            font-size: 1.1rem !important;
+            font-weight: 600 !important;
+            color: #111 !important;
+            padding: 8px 16px;
+            background-color: #f7f7f7;
+            border-radius: 4px;
+            border: 1px solid #eee;
+        }
+        .page-btn {
+            background-color: #111 !important;
+            color: #fff !important;
+            border: none;
+            padding: 10px 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease-in-out;
+        }
+        .page-btn:hover:not(:disabled) {
+            background-color: #d9534f !important;
+            color: #fff !important;
+        }
+        .page-btn:disabled {
+            background-color: #ccc !important;
+            color: #666 !important;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        .active-nav {
+            font-weight: 700 !important;
+            color: #d9534f !important;
+            border-bottom: 2px solid #d9534f;
+        }
+    </style>
+</head>
+
+<body class="products-page">
+
+    <%- include('partials/flash') %>
+
+    <!-- Top Bar -->
+    <div class="top-bar">🔥 Final Exam Sale: Flat Discounts on Selected Items! Free shipping above Rs. 3,000</div>
+
+    <!-- Logo Section -->
+    <section class="logo-section">
+        <div class="container">
+            <img src="/images/bonanza_logo.svg" alt="Bonanza Satrangi Logo" class="main-logo" style="cursor: pointer;" onclick="window.location.href='/'">
+        </div>
+    </section>
+
+    <!-- Navigation Header -->
+    <header>
+        <nav class="navbar">
+            <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
+            <div class="menu" id="nav-menu">
+                <a href="/">HOME</a>
+                <a href="/products?category=dress">DRESSES</a>
+                <a href="/products?category=unstitched">UNSTITCHED</a>
+                <a href="/products?category=perfume">FRAGRANCES</a>
+                <a href="/products?category=beauty">BEAUTY</a>
+                <a href="/products">ALL PRODUCTS</a>
+                <a href="/onsale-products" class="active-nav">ON SALE</a>
+                <a href="/contact-us">CONTACT</a>
+            </div>
+            <div class="icons">
+                <% if (user) { %>
+                    <% if (user.role === 'admin') { %>
+                        <a href="/admin" title="Admin Panel"><i class="fas fa-shield-alt"></i></a>
+                    <% } %>
+                    <a href="/logout" title="Logout (<%= user.name %>)"><i class="fas fa-sign-out-alt"></i></a>
+                <% } else { %>
+                    <a href="/login" title="Login / Register"><i class="fas fa-user"></i></a>
+                <% } %>
+                <a href="/favourites"><i class="fas fa-heart"></i><span class="badge"><%= typeof favouritesCount !== 'undefined' ? favouritesCount : 0 %></span></a>
+                <a href="/cart" id="cart-icon-link">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="badge" id="cart-badge"><%= typeof cartCount !== 'undefined' ? cartCount : 0 %></span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Body Injection -->
+    <%- body %>
+
+    <!-- Corporate Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>CONTACT US</h3>
+                <p>📞 +92 21 111-244-266</p>
+                <p>✉ info@bonanzasatrangi.com</p>
+                <p>Monday - Saturday: 9:30 AM – 10:00 PM</p>
+            </div>
+            <div class="footer-column">
+                <h3>QUICK LINKS</h3>
+                <p><a href="/products">All Products</a></p>
+                <p><a href="/onsale-products">On Sale Items</a></p>
+                <p><a href="/products?category=dress">Dresses</a></p>
+                <p><a href="/products?category=unstitched">Unstitched</a></p>
+                <p><a href="/products?category=perfume">Fragrances</a></p>
+                <p><a href="/products?category=beauty">Beauty</a></p>
+            </div>
+            <div class="footer-column">
+                <h3>CUSTOMER CARE</h3>
+                <p>Privacy Policy</p>
+                <p>Return & Exchange</p>
+                <p>FAQs</p>
+            </div>
+            <div class="footer-column newsletter">
+                <h3>NEWSLETTER</h3>
+                <div class="newsletter-box">
+                    <input type="email" placeholder="Enter Email">
+                    <button>→</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Bonanza Satrangi. Powered By SIAR | SP24 BCS B Final Exam</p>
+        </div>
+    </footer>
+
+    <!-- Main Menu Responsive JS -->
+    <script src="/js/script.js"></script>
+</body>
+
+</html>

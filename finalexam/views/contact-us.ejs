@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Bonanza Satrangi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include('partials/flash') %>
+    <div class="top-bar">Free shipping on orders above Rs. 3,000</div>
+
+    <section class="logo-section">
+        <div class="container">
+            <img src="/images/bonanza_logo.svg" alt="Bonanza Satrangi Logo" class="main-logo">
+        </div>
+    </section>
+
+    <header>
+        <nav class="navbar">
+            <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
+            <div class="menu" id="nav-menu">
+                <a href="/">HOME</a>
+                <a href="/products?category=dress">DRESSES</a>
+                <a href="/products?category=unstitched">UNSTITCHED</a>
+                <a href="/products?category=perfume">FRAGRANCES</a>
+                <a href="/products?category=beauty">BEAUTY</a>
+                <a href="/products">ALL PRODUCTS</a>
+                <a href="/onsale-products">ON SALE</a>
+                <a href="/contact-us">CONTACT</a>
+            </div>
+            <div class="icons">
+                <% if (user) { %>
+                    <% if (user.role === 'admin') { %>
+                        <a href="/admin" title="Admin Panel"><i class="fas fa-shield-alt"></i></a>
+                    <% } %>
+                    <a href="/logout" title="Logout (<%= user.name %>)"><i class="fas fa-sign-out-alt"></i></a>
+                <% } else { %>
+                    <a href="/login" title="Login / Register"><i class="fas fa-user"></i></a>
+                <% } %>
+                <a href="/favourites"><i class="fas fa-heart"></i><span class="badge"><%= typeof favouritesCount !== 'undefined' ? favouritesCount : 0 %></span></a>
+                <a href="/cart"><i class="fas fa-shopping-bag"></i><span class="badge"><%= typeof cartCount !== 'undefined' ? cartCount : 0 %></span></a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="contact-section" style="max-width:800px;margin:60px auto;padding:0 40px;">
+        <h1 style="text-align:center;font-size:32px;letter-spacing:3px;margin-bottom:30px;font-family:'Cormorant Garamond',serif;">CONTACT US</h1>
+        <div style="display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;">
+            <div style="flex:1;min-width:250px;">
+                <h3 style="margin-bottom:15px;letter-spacing:2px;">GET IN TOUCH</h3>
+                <p style="margin-bottom:10px;">📞 +92 21 111-244-266</p>
+                <p style="margin-bottom:10px;">✉ info@bonanzasatrangi.com</p>
+                <p style="margin-bottom:10px;">Monday - Saturday: 9:30 AM – 10:00 PM</p>
+            </div>
+            <div style="flex:1;min-width:250px;">
+                <h3 style="margin-bottom:15px;letter-spacing:2px;">HEAD OFFICE</h3>
+                <p style="margin-bottom:10px;">Bonanza Garments Industries (Pvt) Ltd</p>
+                <p style="margin-bottom:10px;">Plot No. 3-A, Sector 16, Korangi Industrial Area</p>
+                <p style="margin-bottom:10px;">Karachi, Pakistan</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>CONTACT US</h3>
+                <p>📞 +92 21 111-244-266</p>
+                <p>✉ info@bonanzasatrangi.com</p>
+            </div>
+            <div class="footer-column">
+                <h3>INFORMATION</h3>
+                <p>About Us</p>
+                <p>Track Your Order</p>
+            </div>
+            <div class="footer-column">
+                <h3>CUSTOMER CARE</h3>
+                <p>Privacy Policy</p>
+                <p>Return & Exchange</p>
+            </div>
+            <div class="footer-column newsletter">
+                <h3>NEWSLETTER</h3>
+                <div class="newsletter-box">
+                    <input type="email" placeholder="Enter Email">
+                    <button>→</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Bonanza Satrangi. Powered By SIAR</p>
+        </div>
+    </footer>
+    <script src="/js/script.js"></script>
+</body>
+</html>
